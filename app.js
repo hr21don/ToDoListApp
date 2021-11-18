@@ -16,10 +16,16 @@ dotenv.config();
 app.set('view engine', 'ejs');
 
 //Setting up our static path and Body Parser
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb+srv://HR:" + process.env.userpass + "@cluster0.q0cfo.mongodb.net/todolistDB", {useNewUrlParser: true, useUnifiedTopology: true,});
+//Connecting to local MongoDB
+mongoose.connect("mongodb+srv://HR:" + process.env.userpass + "@cluster0.q0cfo.mongodb.net/todolistDB", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 const itemsSchema = {
   name: String
@@ -52,10 +58,10 @@ const List = mongoose.model("List", listSchema);
 //setting up the home route to get requests
 app.get("/", function(req, res) {
 
-  Item.find({}, function(err, foundItems){
+  Item.find({}, function(err, foundItems) {
 
     if (foundItems.length === 0) {
-      Item.insertMany(defaultItems, function(err){
+      Item.insertMany(defaultItems, function(err) {
         if (err) {
           console.log(err);
         } else {
@@ -64,18 +70,23 @@ app.get("/", function(req, res) {
       });
       res.redirect("/");
     } else {
-      res.render("list", {listTitle: "Today", newListItems: foundItems});
+      res.render("list", {
+        listTitle: "Today",
+        newListItems: foundItems
+      });
     }
   });
 
 });
 
-app.get("/:customListName", function(req, res){
+app.get("/:customListName", function(req, res) {
   const customListName = _.capitalize(req.params.customListName);
 
-  List.findOne({name: customListName}, function(err, foundList){
-    if (!err){
-      if (!foundList){
+  List.findOne({
+    name: customListName
+  }, function(err, foundList) {
+    if (!err) {
+      if (!foundList) {
         //Create a new list
         const list = new List({
           name: customListName,
@@ -86,7 +97,10 @@ app.get("/:customListName", function(req, res){
       } else {
         //Show an existing list
 
-        res.render("list", {listTitle: foundList.name, newListItems: foundList.items});
+        res.render("list", {
+          listTitle: foundList.name,
+          newListItems: foundList.items
+        });
       }
     }
   });
@@ -96,7 +110,7 @@ app.get("/:customListName", function(req, res){
 });
 
 //Setting up our post function for after they hit submit to grab the data they sent to us.
-app.post("/", function(req, res){
+app.post("/", function(req, res) {
 
   const itemName = req.body.newItem;
   const listName = req.body.list;
@@ -105,11 +119,13 @@ app.post("/", function(req, res){
     name: itemName
   });
 
-  if (listName === "Today"){
+  if (listName === "Today") {
     item.save();
     res.redirect("/");
   } else {
-    List.findOne({name: listName}, function(err, foundList){
+    List.findOne({
+      name: listName
+    }, function(err, foundList) {
       foundList.items.push(item);
       foundList.save();
       res.redirect("/" + listName);
@@ -118,20 +134,28 @@ app.post("/", function(req, res){
 });
 
 //delete route redirect to home page
-app.post("/delete", function(req, res){
+app.post("/delete", function(req, res) {
   const checkedItemId = req.body.checkbox;
   const listName = req.body.listName;
 
   if (listName === "Today") {
-    Item.findByIdAndRemove(checkedItemId, function(err){
+    Item.findByIdAndRemove(checkedItemId, function(err) {
       if (!err) {
         console.log("Successfully deleted checked item.");
         res.redirect("/");
       }
     });
   } else {
-    List.findOneAndUpdate({name: listName}, {$pull: {items: {_id: checkedItemId}}}, function(err, foundList){
-      if (!err){
+    List.findOneAndUpdate({
+      name: listName
+    }, {
+      $pull: {
+        items: {
+          _id: checkedItemId
+        }
+      }
+    }, function(err, foundList) {
+      if (!err) {
         res.redirect("/" + listName);
       }
     });
@@ -140,12 +164,12 @@ app.post("/delete", function(req, res){
 
 });
 
-app.get("/about", function(req, res){
+app.get("/about", function(req, res) {
   res.render("about");
 });
 
 let port = process.env.PORT;
-if (port == null || port == ""){
+if (port == null || port == "") {
   port = 3000;
 }
 
