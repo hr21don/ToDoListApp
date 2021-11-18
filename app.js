@@ -13,6 +13,7 @@ const app = express();
 // READING ENVIRONMENT VARIABLES
 dotenv.config();
 
+// set the view engine to ejs
 app.set('view engine', 'ejs');
 
 //Setting up our static path and Body Parser
@@ -21,16 +22,17 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.static("public"));
 
-//Connecting to local MongoDB
-mongoose.connect("mongodb+srv://HR:uFRCaKD6h9XAXPv@cluster0.q0cfo.mongodb.net/todolistDB", {
+//Connecting to local MongoDB or MongoDb Atlas Connection
+mongoose.connect(process.env.url, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-
+//Creating the ItemsSchema
 const itemsSchema = {
   name: String
 };
 
+//Creating new MongooseModel to define Item collection
 const Item = mongoose.model("Item", itemsSchema);
 
 
@@ -46,8 +48,10 @@ const item3 = new Item({
   name: "<-- Hit this to delete an item."
 });
 
+//Creating an array of Items to display on HomeRoute
 const defaultItems = [item1, item2, item3];
 
+//Creating ListSchema that contains an array_of_items
 const listSchema = {
   name: String,
   items: [itemsSchema]
@@ -78,7 +82,7 @@ app.get("/", function(req, res) {
   });
 
 });
-
+//Home route Get requests
 app.get("/:customListName", function(req, res) {
   const customListName = _.capitalize(req.params.customListName);
 
