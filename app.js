@@ -163,7 +163,7 @@ app.post("/delete", function(req, res) {
 
 
 });
-
+//setting up and rendering the about page
 app.get("/about", function(req, res) {
   res.render("about");
 });
