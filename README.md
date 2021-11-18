@@ -15,3 +15,11 @@ The example output will display the new list item on the home route.
 If the item is no longer required by the user then click the checkbox to delete the item from the list as follows. 
 
 ![image](https://user-images.githubusercontent.com/91548582/142396147-976b30ea-7d51-4c08-ab22-8e991b3c1292.png)
+
+## Accessing additional Lists
+
+Additional functionality has been added to support multiple lists allowing the user to access a work list in conjunction with a home list using the follow syntax 'https://sheltered-journey-96531.herokuapp.com/work'. 
+
+Accessing the Work List 
+
+![image](https://user-images.githubusercontent.com/91548582/142396954-e5ec8ba3-b434-4a85-b056-b4c87d8ed618.png)
