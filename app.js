@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 //Connecting to local MongoDB
-mongoose.connect("mongodb+srv://HR:uFRCaKD6h9XAXPv@cluster0.q0cfo.mongodb.net/todolistDB", {
+mongoose.connect("mongodb+srv://HR:" + process.env.userpass + "@cluster0.q0cfo.mongodb.net/todolistDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
