@@ -1,19 +1,25 @@
 //jshint esversion:6
+// jshint esversion:8
 
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 const _ = require("lodash");
 
-
+//start express application
 const app = express();
+
+// READING ENVIRONMENT VARIABLES
+dotenv.config();
 
 app.set('view engine', 'ejs');
 
+//Setting up our static path and Body Parser
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb+srv://HR:uFRCaKD6h9XAXPv@cluster0.q0cfo.mongodb.net/todolistDB", {useNewUrlParser: true, useUnifiedTopology: true,});
+mongoose.connect("mongodb+srv://HR:" + process.env.userpass + "@cluster0.q0cfo.mongodb.net/todolistDB", {useNewUrlParser: true, useUnifiedTopology: true,});
 
 const itemsSchema = {
   name: String
@@ -43,7 +49,7 @@ const listSchema = {
 
 const List = mongoose.model("List", listSchema);
 
-
+//setting up the home route to get requests
 app.get("/", function(req, res) {
 
   Item.find({}, function(err, foundItems){
@@ -89,6 +95,7 @@ app.get("/:customListName", function(req, res){
 
 });
 
+//Setting up our post function for after they hit submit to grab the data they sent to us.
 app.post("/", function(req, res){
 
   const itemName = req.body.newItem;
@@ -110,6 +117,7 @@ app.post("/", function(req, res){
   }
 });
 
+//delete route redirect to home page
 app.post("/delete", function(req, res){
   const checkedItemId = req.body.checkbox;
   const listName = req.body.listName;
@@ -141,6 +149,7 @@ if (port == null || port == ""){
   port = 3000;
 }
 
+//set up express server to listen to current port
 app.listen(port, function() {
   console.log("Server started on port 3000");
 });
