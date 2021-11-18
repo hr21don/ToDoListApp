@@ -48,7 +48,7 @@ const item3 = new Item({
   name: "<-- Hit this to delete an item."
 });
 
-//Creating an array of Items to display on HomeRoute
+//Creating an array of Items
 const defaultItems = [item1, item2, item3];
 
 //Creating ListSchema that contains an array_of_items
