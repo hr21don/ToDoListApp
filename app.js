@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.static("public"));
 
-//Connecting to local MongoDB or MongoDb Atlas Connection
+//Connecting to local MongoDB or Connect to Your MongoDb Atlas Connection
 mongoose.connect(process.env.url, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
