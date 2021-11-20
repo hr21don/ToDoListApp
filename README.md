@@ -25,14 +25,3 @@ Accessing the Work List
 ![image](https://user-images.githubusercontent.com/91548582/142396954-e5ec8ba3-b434-4a85-b056-b4c87d8ed618.png)
 
 
-## How to run? || Download the zip file to your downloads directory and extract it.
-
-* Open up a terminal/cmd and change to the directory with app.js in it
-* Run app.js locally using 'nodemon app.js' to start the server on localhost:3000.
-
-## Useful Resources 
-
-* https://ejs.co/
-* https://nodejs.org/en/download/
-* https://www.npmjs.com/package/nodemon 
-* https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
